@@ -26,13 +26,24 @@ jobs:
       - run:
           name: "Say world"
           command: "echo World!"
-
+  say-hello-evnVari-name:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: "Say hello $MY_NAME"
+          command: "echo hello $MY_NAME"
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  first-workflow:
     jobs:
       - say-hello
       - say-world:
           requires:
             - say-hello
+      - say-hello-evnVari-name:
+          requires:
+            - say-hello
+            - say-world
