@@ -43,9 +43,9 @@ jobs:
       - run:
           name: "share data between jobs with workspaces"
           command: |
-            echo "Hello World from new workSpace!" > output.txt
+            echo "Hello World from new workSpace!" > ~/output.txt
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: ~/
           paths:
             - output.txt
   print_output_file:
@@ -54,11 +54,11 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/workspace
+          at: ~/
       - run:
           name: "retrieve the saved data"
           command: |
-            cat /tmp/workspace/output.txt
+            cat ~/output.txt
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
