@@ -5,10 +5,13 @@ version: 2.1
 commands:
   print-pipeline-id:
     description: "this command prints and pipeline id"
+    parameters:
+      pipeline-id:
+        type: string
     steps:
       - checkout
       - run: |
-          echo "the pipeline id is ${CIRCLE_WORKFLOW_ID}"
+          echo " your id is << parameters.pipeline-id >> "
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -72,7 +75,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - print-pipeline-id
+      - print-pipeline-id:
+          pipeline-id: << pipeline.id >>
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
