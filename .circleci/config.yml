@@ -70,17 +70,26 @@ jobs:
   #         name: "retrieve the saved data"
   #         command: |
   #           cat ~/output.txt
-  print-pipeline-id:
+  # print-pipeline-id:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - checkout
+  #     - print-pipeline-id:
+  #         pipeline-id: << pipeline.id >>
+  fail-job:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - print-pipeline-id:
-          pipeline-id: << pipeline.id >>
-
+      - run: exit 1
+      - run:
+          name: print it fails on failure
+          command: echo "it fails!!"
+          when: on_fail
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   first-workflow:
     jobs:
-      - print-pipeline-id
+      - fail-job
